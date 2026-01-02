@@ -16,7 +16,7 @@ import axios from "axios";
 
 const route = useRoute();
 const isMenuOpen = ref(false);
-const categories = ref([]);
+const categories = ref<string[]>([]);
 const isDayMode = ref(false);
 
 const toggleMenu = () => {
@@ -73,6 +73,7 @@ onMounted(() => {
     <div
       class="p-4 bg-slate-400 dark:bg-slate-700"
       v-for="category in categories"
+      :key="category"
     >
       <RouterLink
         :to="`/category/${category}`"
@@ -85,10 +86,10 @@ onMounted(() => {
   </div>
   <div class="sticky top-0 bg-gray-300 dark:bg-gray-700 mb-4">
     <nav class="flex justify-between items-center">
-      <div class="flex items-center">
+      <div class="flex flex-[1] items-center p-4">
         <svg
           @click="toggleMenu"
-          class="w-14 mt-4 mx-2 cursor-pointer"
+          class="w-14 p-2 cursor-pointer"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 10 10"
           stroke="currentColor"
@@ -138,26 +139,29 @@ onMounted(() => {
             />
           </rect>
         </svg>
-        <RouterLink class="w-10 mt-4 mx-2" to="/">Home</RouterLink>
+        <RouterLink class="w-10 p-2" to="/">Home</RouterLink>
       </div>
-      <div class="flex">
-        <button class="mt-4 mx-2 justify-end" @click="switchTheme">
+      <div
+        class="md:flex absolute left-1/2 right-2 -translate-x-1/2 w-auto flex-grow justify-center hidden"
+      >
+        <SearchBar />
+      </div>
+      <div class="flex flex-[3] p-4 items-center justify-end">
+        <button class="p-2 justify-end" @click="switchTheme">
           <img
             class="object-contain h-9 dark:invert"
             src="./assets/night-mode.png"
             alt="Switch theme"
           />
         </button>
-        <RouterLink
-          class="mt-4 mx-2 justify-end"
-          :to="{ path: '/cart', query: {} }"
+        <RouterLink class="p-2 justify-end" :to="{ path: '/cart', query: {} }"
           ><img
             class="object-contain h-9 dark:invert"
             src="./assets/shopping_cart.png"
             alt="Cart"
         /></RouterLink>
         <RouterLink
-          class="mt-4 mx-2 justify-end"
+          class="p-2 justify-end"
           :to="{ path: '/favourites', query: {} }"
           ><img
             class="object-contain h-9 dark:invert"
@@ -165,7 +169,7 @@ onMounted(() => {
             alt="Favourites"
         /></RouterLink>
         <RouterLink
-          class="mt-4 mx-2 justify-end"
+          class="p-2 justify-end"
           :to="{ path: '/account', query: {} }"
           ><img
             class="object-contain h-9 dark:invert"
@@ -174,7 +178,7 @@ onMounted(() => {
         /></RouterLink>
       </div>
     </nav>
-    <div class="flex justify-center">
+    <div class="flex justify-center md:hidden lg:hidden ml-auto">
       <SearchBar />
     </div>
   </div>
@@ -182,7 +186,7 @@ onMounted(() => {
     <RouterView :key="route.fullPath" />
   </main>
   <div
-    v-show="showAutocompleteComponent"
+    v-if="showAutocompleteComponent"
     class="fixed top-32 left-4 right-4 lg:left-80 lg:right-80 z-50 bg-slate-200 rounded-lg text-black overflow-y-auto overscroll-x-contain h-auto"
   >
     <ProductsAutocompleteSearch :search-q="store.typingSearchQuery" />

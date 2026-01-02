@@ -31,7 +31,7 @@ const onFocusInput = () => {
 </script>
 
 <template>
-  <div class="flex flex-wrap w-full p-4 md:w-7/12">
+  <div class="flex w-full p-4">
     <input
       @keyup="typingSearch"
       @blur="onBlurInput"

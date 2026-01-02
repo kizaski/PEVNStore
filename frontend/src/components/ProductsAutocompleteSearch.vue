@@ -2,9 +2,10 @@
 import { ref, watch } from "vue";
 import axios from "axios";
 import { Product as ProductItem } from "../types/product";
-const props = defineProps({
-  searchQ: String,
-});
+
+const props = defineProps<{
+  searchQ?: string;
+}>();
 
 const products = ref<ProductItem[]>([]);
 const loading = ref(true);
@@ -12,10 +13,14 @@ const errorFetching = ref(false);
 
 const fetchProducts = async () => {
   loading.value = true;
+  errorFetching.value = false;
+
   if (!props.searchQ) {
     products.value = [];
+    loading.value = false;
     return;
   }
+
   try {
     const resp = await axios.get("/api/products", {
       params: {
@@ -25,7 +30,6 @@ const fetchProducts = async () => {
       },
     });
     products.value = resp.data.products;
-    errorFetching.value = false;
   } catch (error) {
     errorFetching.value = true;
     console.error("Failed to fetch products:", error);
@@ -48,7 +52,7 @@ watch(
     class="m-2 flex justify-center flex-col"
     :class="{ 'animate-pulse': loading }"
   >
-    <div v-for="product in products" v-show="!errorFetching">
+    <div v-for="product in products" :key="product.id" v-show="!errorFetching">
       <RouterLink
         :to="`/product/${product.id}`"
         class="flex justify-between cursor-pointer mb-2"

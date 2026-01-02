@@ -50,20 +50,18 @@ export default defineStore("filters-store", () => {
     maxPrice: undefined,
     ratingAbove: 0,
   });
+
   watch(
     () => route.query.filters,
     (newFilters) => {
-      if (newFilters)
+      if (typeof newFilters === "string") {
         try {
-          const f: IFilters = JSON.parse(newFilters as string) as IFilters;
-          filters.fromDate = f.fromDate;
-          filters.toDate = f.toDate;
-          filters.minPrice = f.minPrice;
-          filters.maxPrice = f.maxPrice;
-          filters.ratingAbove = f.ratingAbove;
+          const f = JSON.parse(newFilters) as IFilters;
+          Object.assign(filters, f);
         } catch (error) {
           console.error("error setting filters", error);
         }
+      }
     }
   );
 
@@ -93,10 +91,14 @@ export default defineStore("filters-store", () => {
 
   // fetch products on changes
   watch(
-    [() => filters, () => category, () => orderBy, () => orderDirection],
+    [filters, category, orderBy, orderDirection],
     async () => {
       productsStore.page = 1;
-      await productsStore.fetchProducts();
+      if (productsStore && productsStore.fetchProducts) {
+        productsStore.fetchProducts();
+      } else {
+        productsStore.products = [];
+      }
     },
     { immediate: true, deep: true }
   );

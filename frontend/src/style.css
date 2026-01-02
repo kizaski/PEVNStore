@@ -16,7 +16,15 @@ h3 {
 
 :root {
   @apply dark:text-slate-200 dark:bg-slate-600;
+  @apply source-sans-3-root-font;
 }
 th {
   @apply text-end align-top;
+}
+
+.source-sans-3-root-font {
+  font-family: "Source Sans 3", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
 }

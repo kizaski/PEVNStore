@@ -1,7 +1,19 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="flex flex-col items-center justify-center mb-4">
+  <div class="flex flex-col items-center justify-center p-2">
+    <div class="w-full">
+      <div
+        class="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-1/3 mb-4"
+      ></div>
+      <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+
+      <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+
+      <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+
+      <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5"></div>
+    </div>
     <span class="">Loading...</span>
     <svg
       class="w-10 h-10 text-gray-200 dark:text-gray-600"

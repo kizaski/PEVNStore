@@ -67,8 +67,10 @@ onMounted(async () => {
           </p>
         </div>
 
-        <div class="mb-4 mx-2">
-          <h2>Details</h2>
+        <table class="mb-4 mx-2">
+          <caption>
+            <h2>Details</h2>
+          </caption>
           <tbody>
             <tr>
               <th>Manufacturer:</th>
@@ -87,7 +89,7 @@ onMounted(async () => {
               <td>{{ product?.release_date }}</td>
             </tr>
           </tbody>
-        </div>
+        </table>
       </div>
     </div>
   </div>
