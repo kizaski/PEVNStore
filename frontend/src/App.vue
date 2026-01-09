@@ -26,7 +26,9 @@ const toggleMenu = () => {
 // use filtersStore (?)
 const fetchCategories = async () => {
   try {
-    const resp = await axios.get("/api/products/categories");
+    const resp = await axios.get(
+      `${import.meta.env.VITE_API_URL}/products/categories`
+    );
     categories.value = resp.data;
   } catch (error) {
     console.error("Failed to fetch categories:", error);

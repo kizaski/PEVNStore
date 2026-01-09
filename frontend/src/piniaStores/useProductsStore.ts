@@ -83,7 +83,7 @@ export default defineStore("products-store", () => {
     loading.value = true;
     try {
       const cat = category === "" ? filtersStore.category : category;
-      const resp = await axios.get("/api/products", {
+      const resp = await axios.get(`${import.meta.env.VITE_API_URL}/products`, {
         params: {
           limit: load_amount.value,
           productName: store.searchQuery,

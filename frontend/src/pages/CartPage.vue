@@ -4,6 +4,7 @@ import Toaster from "../components/Toaster.vue";
 import useUserStore from "../piniaStores/useUserStore";
 import Product from "../components/Product.vue";
 import AsideNav from "../components/AsideNav.vue";
+import { computed } from "vue";
 
 const userStore = useUserStore();
 const cartStore = useCartStore();
@@ -23,6 +24,11 @@ const increaseQty = (id: number | undefined) => {
 const decreaseQty = (id: number | undefined) => {
   cartStore.decreaseQty(id);
 };
+
+const checkoutUrl = computed(() => {
+  const base = import.meta.env.VITE_API_URL;
+  return `${base}/payment/create-checkout-session`;
+});
 </script>
 
 <template>
@@ -106,7 +112,7 @@ const decreaseQty = (id: number | undefined) => {
 
           <form
             class="flex justify-center w-full mt-4"
-            action="/api/payment/create-checkout-session"
+            :action="checkoutUrl"
             method="POST"
             v-if="userStore.user"
           >

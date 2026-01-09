@@ -22,7 +22,7 @@ export default defineStore("cart-store", () => {
 
   const fetchCartProducts = async () => {
     try {
-      const resp = await axios.get("/api/products", {
+      const resp = await axios.get(`${import.meta.env.VITE_API_URL}/products`, {
         params: {
           ids: JSON.stringify(cart.value.map((item) => item.product_id)),
         },
@@ -35,7 +35,7 @@ export default defineStore("cart-store", () => {
 
   const removeFromCart = async (id: number) => {
     try {
-      await axios.delete("/api/cart", {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/cart`, {
         data: {
           product_id: id,
         },
@@ -48,11 +48,13 @@ export default defineStore("cart-store", () => {
 
   const addToCart = async (productId: number) => {
     try {
-      await axios.post("/api/cart", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/cart`, {
         product_id: productId,
         quantity: 1,
       });
-      cart.value = (await axios.get("/api/cart")).data;
+      cart.value = (
+        await axios.get(`${import.meta.env.VITE_API_URL}/cart`)
+      ).data;
       await fetchCartProducts();
 
       toasterStore.success({ text: "Successfully added prodcut to cart" });
@@ -71,7 +73,7 @@ export default defineStore("cart-store", () => {
         return;
       }
 
-      await axios.delete("/api/cart/clear");
+      await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clear`);
       cart.value = [];
       cartProducts.value = [];
 
@@ -89,12 +91,14 @@ export default defineStore("cart-store", () => {
     }
     if (productId) {
       try {
-        await axios.put("/api/cart", {
+        await axios.put(`${import.meta.env.VITE_API_URL}/cart`, {
           product_id: productId,
           quantity: newQty,
         });
 
-        cart.value = (await axios.get("/api/cart")).data;
+        cart.value = (
+          await axios.get(`${import.meta.env.VITE_API_URL}/cart`)
+        ).data;
         await fetchCartProducts();
       } catch (error: any) {
         console.error("Failed to update cart:", error);
@@ -120,7 +124,9 @@ export default defineStore("cart-store", () => {
 
   onMounted(async () => {
     try {
-      cart.value = (await axios.get("/api/cart")).data;
+      cart.value = (
+        await axios.get(`${import.meta.env.VITE_API_URL}/cart`)
+      ).data;
     } catch (error) {
       console.error("Failed to fetch cart:", error);
     }

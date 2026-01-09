@@ -12,11 +12,14 @@ export default defineStore("user-store", () => {
 
   const signUp = async () => {
     try {
-      const resp = await axios.post("/api/auth/signup", {
-        username: username.value,
-        email: email.value,
-        password: password.value,
-      });
+      const resp = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/signup`,
+        {
+          username: username.value,
+          email: email.value,
+          password: password.value,
+        }
+      );
       user.value = resp.data.user.username;
       message.value = "Sign up successful.";
     } catch (error: any) {
@@ -27,7 +30,7 @@ export default defineStore("user-store", () => {
 
   const logOut = async () => {
     try {
-      await axios.post("/api/auth/logout");
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`);
       user.value = null;
       message.value = "Log out successful.";
     } catch (error: any) {
@@ -38,10 +41,13 @@ export default defineStore("user-store", () => {
 
   const logIn = async (uname: string, pass: string) => {
     try {
-      const resp = await axios.post("/api/auth/login/password", {
-        username: uname,
-        password: pass,
-      });
+      const resp = await axios.post(
+        `${import.meta.env.VITE_API_URL}/auth/login/password`,
+        {
+          username: uname,
+          password: pass,
+        }
+      );
       user.value = resp.data.user.username;
       message.value = "Log in successful.";
     } catch (error: any) {
@@ -52,10 +58,12 @@ export default defineStore("user-store", () => {
 
   onMounted(async () => {
     try {
-      const resp = await axios.get("/api/auth/sessionStatus");
+      const resp = await axios.get(
+        `${import.meta.env.VITE_API_URL}/auth/sessionStatus`
+      );
       user.value = resp.data.session.passport.user;
     } catch (error: any) {
-      console.error("Failed call to /api/auth/sessionStatus:", error);
+      console.error("Failed call to /auth/sessionStatus:", error);
     }
   });
 
