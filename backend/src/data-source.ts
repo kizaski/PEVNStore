@@ -13,6 +13,8 @@ const dbuser = process.env.POSTGRES_USER;
 const dbpass = process.env.POSTGRES_PASSWORD;
 const dbhost = process.env.DB_HOST;
 
+console.log('DEBUG dbuser:', dbuser);
+
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   host: dbhost,
