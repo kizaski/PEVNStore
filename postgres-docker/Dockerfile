@@ -1,5 +1,5 @@
 # Use official PostgreSQL image
-FROM postgres:18
+FROM postgres:16
 
 # Copy environment variables file
 # COPY backend/.env /docker-entrypoint-initdb.d/.env
