@@ -20,9 +20,23 @@ const session_secret = process.env.SESSION_SECRET!;
 
 app.use(express.json());
 
+const allowedOrigins = [
+  /^https?:\/\/(?:[^:]+\.)?localhost(?::\d+)?$/,
+  /^https?:\/\/127\.0\.0\.1(?::\d+)?$/,
+  /^https?:\/\/\[::1\](?::\d+)?$/,
+  /^https?:\/\/pevnstore[^.]+\.onrender\.com$/
+];
+
 app.use(
   cors({
-    origin: 'http://localhost:5173'
+    origin: function (origin, callback) {
+      // if (!origin) return callback(null, true); // allow non-browser requests like Postman
+      if (!origin) return callback(new Error('CORS not allowed'));
+      for (let i = 0; i < allowedOrigins.length; i++) {
+        if (allowedOrigins[i].test(origin)) return callback(null, true);
+      }
+      return callback(new Error('CORS not allowed'));
+    }
   })
 );
 
