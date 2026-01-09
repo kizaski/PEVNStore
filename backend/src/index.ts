@@ -1,5 +1,4 @@
 import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import 'reflect-metadata';
 import { AppDataSource } from './data-source';
 import { Product } from './entities/Product';
@@ -12,7 +11,9 @@ import favouritesRoutes from './routes/favouritesRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import cors from 'cors';
 
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const app: Express = express();
 const port = parseInt(process.env.PORT!, 10) || 3001;

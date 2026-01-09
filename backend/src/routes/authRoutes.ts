@@ -5,11 +5,12 @@ import passport from 'passport';
 import argon2 from 'argon2';
 import { Strategy as LocalStrategy } from 'passport-local';
 // import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import dotenv from 'dotenv';
 import { CartProduct } from '../entities/CartProduct';
 import { CartItem } from '../types/types';
 
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 // const google_client_id = process.env.GOOGLE_CLIENT_ID!;
 // const google_secret = process.env.GOOGLE_CLIENT_SECRET!;

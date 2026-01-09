@@ -1,10 +1,11 @@
 import Stripe from 'stripe';
 import { Router, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import { AppDataSource } from '../data-source';
 import { CartProduct } from '../entities/CartProduct';
 
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 const router = Router();
 const stripe_secret = process.env.STRIPE_API_KEY!;
