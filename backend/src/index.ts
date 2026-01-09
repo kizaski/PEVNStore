@@ -10,10 +10,9 @@ import authRoutes from './routes/authRoutes';
 import favouritesRoutes from './routes/favouritesRoutes';
 import paymentRoutes from './routes/paymentRoutes';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+dotenv.config();
 
 const app: Express = express();
 const port = parseInt(process.env.PORT!, 10) || 3001;

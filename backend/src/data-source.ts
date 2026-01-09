@@ -6,50 +6,30 @@ import { Product } from './entities/Product';
 import { User } from './entities/User';
 import { Favourite } from './entities/Favourite';
 import { CartProduct } from './entities/CartProduct';
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const db = process.env.POSTGRES_DB;
 const dbuser = process.env.POSTGRES_USER;
 const dbpass = process.env.POSTGRES_PASSWORD;
 const dbhost = process.env.DB_HOST;
 
-console.log('DEBUG db:', db);
-console.log('DEBUG DATABASE_URL:', process.env.DATABASE_URL);
-console.log('ENV:', process.env.NODE_ENV);
-
-let options: DataSourceOptions & SeederOptions;
-if (process.env.NODE_ENV !== 'production') {
-  options = {
-    type: 'postgres',
-    host: dbhost,
-    port: 5432,
-    username: dbuser,
-    password: dbpass,
-    database: db,
-    synchronize: true,
-    logging: true,
-    entities: [Product, User, Favourite, CartProduct],
-    subscribers: [],
-    migrations: [],
-
-    seeds: ['src/seeders/**/*{.ts,.js}'],
-    factories: ['src/factories/**/*{.ts,.js}']
-  };
-} else {
-  options = {
-    type: 'postgres',
-    url: process.env.DATABASE_URL,
-    synchronize: true,
-    logging: true,
-    entities: [Product, User, Favourite, CartProduct],
-    subscribers: [],
-    migrations: [],
-    seeds: ['src/seeders/**/*{.ts,.js}'],
-    factories: ['src/factories/**/*{.ts,.js}']
-  };
-}
+const options: DataSourceOptions & SeederOptions = {
+  type: 'postgres',
+  host: dbhost,
+  port: 5432,
+  username: dbuser,
+  password: dbpass,
+  database: db,
+  synchronize: true,
+  logging: true,
+  entities: [Product, User, Favourite, CartProduct],
+  subscribers: [],
+  migrations: [],
+  seeds: ['src/seeders/**/*{.ts,.js}'],
+  factories: ['src/factories/**/*{.ts,.js}']
+};
 
 export const AppDataSource = new DataSource(options);
 

@@ -7,10 +7,9 @@ import { Strategy as LocalStrategy } from 'passport-local';
 // import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { CartProduct } from '../entities/CartProduct';
 import { CartItem } from '../types/types';
+import dotenv from 'dotenv';
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+dotenv.config();
 
 // const google_client_id = process.env.GOOGLE_CLIENT_ID!;
 // const google_secret = process.env.GOOGLE_CLIENT_SECRET!;
