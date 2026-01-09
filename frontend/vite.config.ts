@@ -6,6 +6,9 @@ import { loadEnv } from "vite";
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
 
+  console.log("DEBUG import.meta:", import.meta);
+  console.log("DEBUG env from loadEnv:", env);
+
   return {
     plugins: [vue()],
     server: {
