@@ -17,6 +17,10 @@ export default defineConfig(({ mode }) => {
         },
       },
       host: true,
+      cors: {
+        origin:
+          /^https?:\/\/(?:(?:[^:]+\.)?localhost|127\.0\.0\.1|\[::1\]|pevnstore-backend-[^.]+\.onrender\.com)(?::\d+)?$/,
+      },
     },
   };
 });
