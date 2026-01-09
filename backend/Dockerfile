@@ -10,4 +10,7 @@ COPY . .
 
 EXPOSE 3001
 
+RUN npm run db:create
+RUN npm run seed:run
+
 CMD ["npm", "run", "dev"]
