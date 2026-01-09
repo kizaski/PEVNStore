@@ -7,11 +7,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
 
   return {
+    base: env.VITE_API_URL || "http://localhost:3001",
     plugins: [vue()],
     server: {
       proxy: {
         "/api": {
-          target: env.VITE_API_URL ?? "http://localhost:3001",
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
