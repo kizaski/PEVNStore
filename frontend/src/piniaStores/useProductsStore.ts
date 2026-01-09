@@ -83,20 +83,17 @@ export default defineStore("products-store", () => {
     loading.value = true;
     try {
       const cat = category === "" ? filtersStore.category : category;
-      const resp = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/products",
-        {
-          params: {
-            limit: load_amount.value,
-            productName: store.searchQuery,
-            offset: (page.value - 1) * load_amount.value,
-            category: cat,
-            filters: JSON.stringify(filtersStore.filters),
-            orderBy: filtersStore.orderBy,
-            orderDirection: filtersStore.orderDirection,
-          },
-        }
-      );
+      const resp = await axios.get("/api/products", {
+        params: {
+          limit: load_amount.value,
+          productName: store.searchQuery,
+          offset: (page.value - 1) * load_amount.value,
+          category: cat,
+          filters: JSON.stringify(filtersStore.filters),
+          orderBy: filtersStore.orderBy,
+          orderDirection: filtersStore.orderDirection,
+        },
+      });
       products.value = resp.data.products;
       total_products_amount.value = resp.data.count;
 
