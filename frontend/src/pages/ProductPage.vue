@@ -19,7 +19,10 @@ const addToCart = () => {
 onMounted(async () => {
   try {
     const resp = await axios.get(
-      `${import.meta.env.VITE_API_URL}/products/one/${route.params.productId}`
+      `${import.meta.env.VITE_API_URL}/products/one/${route.params.productId}`,
+      {
+        withCredentials: true,
+      }
     );
     product.value = resp.data;
   } catch (error) {

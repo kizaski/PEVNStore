@@ -16,9 +16,13 @@ export default defineStore("favourites-store", () => {
 
   const addToFavourites = async (productId: number) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/favourites`, {
-        product_id: productId,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/favourites`,
+        {
+          product_id: productId,
+        },
+        { withCredentials: true }
+      );
 
       await fetchFavourites();
 
@@ -37,6 +41,7 @@ export default defineStore("favourites-store", () => {
         data: {
           product_id: productId,
         },
+        withCredentials: true,
       });
 
       await fetchFavourites();
@@ -51,7 +56,8 @@ export default defineStore("favourites-store", () => {
   const fetchFavourites = async () => {
     try {
       const resp = await axios.get(
-        `${import.meta.env.VITE_API_URL}/favourites`
+        `${import.meta.env.VITE_API_URL}/favourites`,
+        { withCredentials: true }
       );
 
       favourites.value = resp.data;

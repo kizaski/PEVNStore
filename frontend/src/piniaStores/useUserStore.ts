@@ -18,7 +18,8 @@ export default defineStore("user-store", () => {
           username: username.value,
           email: email.value,
           password: password.value,
-        }
+        },
+        { withCredentials: true }
       );
       user.value = resp.data.user.username;
       message.value = "Sign up successful.";
@@ -30,7 +31,9 @@ export default defineStore("user-store", () => {
 
   const logOut = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`);
+      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {
+        withCredentials: true,
+      });
       user.value = null;
       message.value = "Log out successful.";
     } catch (error: any) {
@@ -46,7 +49,8 @@ export default defineStore("user-store", () => {
         {
           username: uname,
           password: pass,
-        }
+        },
+        { withCredentials: true }
       );
       user.value = resp.data.user.username;
       message.value = "Log in successful.";
@@ -59,7 +63,8 @@ export default defineStore("user-store", () => {
   onMounted(async () => {
     try {
       const resp = await axios.get(
-        `${import.meta.env.VITE_API_URL}/auth/sessionStatus`
+        `${import.meta.env.VITE_API_URL}/auth/sessionStatus`,
+        { withCredentials: true }
       );
       user.value = resp.data.session.passport.user;
     } catch (error: any) {

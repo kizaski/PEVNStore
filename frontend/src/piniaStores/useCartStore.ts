@@ -26,6 +26,7 @@ export default defineStore("cart-store", () => {
         params: {
           ids: JSON.stringify(cart.value.map((item) => item.product_id)),
         },
+        withCredentials: true,
       });
       cartProducts.value = resp.data.products;
     } catch (error: any) {
@@ -39,6 +40,7 @@ export default defineStore("cart-store", () => {
         data: {
           product_id: id,
         },
+        withCredentials: true,
       });
       cartProducts.value = cartProducts.value?.filter((p) => p.id !== id);
     } catch (error: any) {
@@ -48,12 +50,18 @@ export default defineStore("cart-store", () => {
 
   const addToCart = async (productId: number) => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/cart`, {
-        product_id: productId,
-        quantity: 1,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/cart`,
+        {
+          product_id: productId,
+          quantity: 1,
+        },
+        { withCredentials: true }
+      );
       cart.value = (
-        await axios.get(`${import.meta.env.VITE_API_URL}/cart`)
+        await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+          withCredentials: true,
+        })
       ).data;
       await fetchCartProducts();
 
@@ -73,7 +81,9 @@ export default defineStore("cart-store", () => {
         return;
       }
 
-      await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clear`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/cart/clear`, {
+        withCredentials: true,
+      });
       cart.value = [];
       cartProducts.value = [];
 
@@ -91,13 +101,19 @@ export default defineStore("cart-store", () => {
     }
     if (productId) {
       try {
-        await axios.put(`${import.meta.env.VITE_API_URL}/cart`, {
-          product_id: productId,
-          quantity: newQty,
-        });
+        await axios.put(
+          `${import.meta.env.VITE_API_URL}/cart`,
+          {
+            product_id: productId,
+            quantity: newQty,
+          },
+          { withCredentials: true }
+        );
 
         cart.value = (
-          await axios.get(`${import.meta.env.VITE_API_URL}/cart`)
+          await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+            withCredentials: true,
+          })
         ).data;
         await fetchCartProducts();
       } catch (error: any) {
@@ -125,7 +141,9 @@ export default defineStore("cart-store", () => {
   onMounted(async () => {
     try {
       cart.value = (
-        await axios.get(`${import.meta.env.VITE_API_URL}/cart`)
+        await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+          withCredentials: true,
+        })
       ).data;
     } catch (error) {
       console.error("Failed to fetch cart:", error);

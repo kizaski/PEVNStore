@@ -121,7 +121,8 @@ export default defineStore("filters-store", () => {
   const fetchCategories = async () => {
     try {
       const resp = await axios.get(
-        `${import.meta.env.VITE_API_URL}/products/categories`
+        `${import.meta.env.VITE_API_URL}/products/categories`,
+        { withCredentials: true }
       );
       categories.value = resp.data;
     } catch (error) {

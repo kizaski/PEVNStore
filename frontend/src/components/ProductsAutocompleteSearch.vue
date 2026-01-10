@@ -28,6 +28,7 @@ const fetchProducts = async () => {
         limit: 3,
         offset: 0,
       },
+      withCredentials: true,
     });
     products.value = resp.data.products;
   } catch (error) {

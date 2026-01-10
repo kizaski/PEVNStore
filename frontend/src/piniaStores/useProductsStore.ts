@@ -93,6 +93,7 @@ export default defineStore("products-store", () => {
           orderBy: filtersStore.orderBy,
           orderDirection: filtersStore.orderDirection,
         },
+        withCredentials: true,
       });
       products.value = resp.data.products;
       total_products_amount.value = resp.data.count;

@@ -24,7 +24,7 @@ const allowedOrigins = [
   /^https?:\/\/(?:[^:]+\.)?localhost(?::\d+)?$/,
   /^https?:\/\/127\.0\.0\.1(?::\d+)?$/,
   /^https?:\/\/\[::1\](?::\d+)?$/,
-  /^https?:\/\/pevnstore[^.]+\.onrender\.com$/
+  /^https?:\/\/pevnstore\..*onrender\.com\/?$/
 ];
 
 app.use(
@@ -36,7 +36,10 @@ app.use(
         if (allowedOrigins[i].test(origin)) return callback(null, true);
       }
       return callback(new Error('CORS not allowed'));
-    }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
   })
 );
 
