@@ -80,20 +80,21 @@ onMounted(() => {
     :class="{ 'translate-x-0': isMenuOpen, '-translate-x-full': !isMenuOpen }"
     class="fixed left-0 top-20 z-50 transition-transform duration-500 h-5/6 w-3/5 md:w-1/5 overflow-y-scroll"
   >
-    <div
-      v-if="category && category.length > 0"
-      class="p-4 bg-slate-400 dark:bg-slate-700"
-      v-for="category in categories"
-      :key="category"
-    >
-      <RouterLink
-        :to="`/category/${category}`"
-        class="flex justify-between cursor-pointer hover:underline"
+    <template v-if="categories.length > 0">
+      <div
+        class="p-4 bg-slate-400 dark:bg-slate-700"
+        v-for="category in categories"
+        :key="category"
       >
-        <span>{{ category }}</span
-        ><span>🔗</span>
-      </RouterLink>
-    </div>
+        <RouterLink
+          :to="`/category/${category}`"
+          class="flex justify-between cursor-pointer hover:underline"
+        >
+          <span>{{ category }}</span
+          ><span>🔗</span>
+        </RouterLink>
+      </div>
+    </template>
   </div>
   <div class="sticky top-0 bg-gray-300 dark:bg-gray-700 mb-4">
     <nav class="flex justify-between items-center">
