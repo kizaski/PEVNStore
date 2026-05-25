@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { AppDataSource } from '../data-source';
 import { Product } from '../entities/Product';
+import { ILike } from 'typeorm';
 
 const router = Router();
 
@@ -49,7 +50,7 @@ router.get('/', async (req: Request, res: Response) => {
     const productPropsArray = Object.getOwnPropertyNames(
       productRepository.metadata.propertiesMap
     );
-    if (!productPropsArray.filter(prop => orderBy.includes(prop))) {
+    if (!productPropsArray.includes(orderBy)) {
       return res.status(400).send({ message: 'Invalid orderBy format' });
     }
   } else {
@@ -89,21 +90,25 @@ router.get('/', async (req: Request, res: Response) => {
 
   // Parse limit
   try {
-    limit = parseInt(limitString) || ids.length;
-    if (isNaN(limit)) {
-      throw new Error('Limit must be a number');
+    if (limitString) {
+      limit = parseInt(limitString);
+      if (isNaN(limit)) {
+        throw new Error('Limit must be a number');
+      }
+    } else {
+      limit = undefined;
     }
   } catch (error) {
     return res.status(400).send({ message: 'Limit must be a number' });
   }
 
-  if (isNaN(offset) && isNaN(limit)) {
+  if (isNaN(offset) && (limit !== undefined && isNaN(limit))) {
     return res
       .status(400)
       .send({ message: 'Offset and limit must be numbers' });
   }
 
-  if (offset < 0 || limit < 0) {
+  if (offset < 0 || (limit !== undefined && limit < 0)) {
     return res
       .status(400)
       .send({ message: 'Offset and limit must not be negative' });
@@ -160,15 +165,11 @@ router.get('/', async (req: Request, res: Response) => {
   }
 
   if (category && category.trim() !== '') {
-    queryBuilder.andWhere('product.product_category ILIKE :category', {
-      category: `%${category}%`
-    });
+    queryBuilder.andWhere({ product_category: ILike(`%${category}%`) });
   }
 
   if (productName && productName.trim() !== '') {
-    queryBuilder.andWhere('product.product_name ILIKE :productName', {
-      productName: `%${productName}%`
-    });
+    queryBuilder.andWhere({ product_name: ILike(`%${productName}%`) });
   }
 
   const count = await queryBuilder.getCount();

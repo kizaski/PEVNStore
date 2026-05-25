@@ -11,7 +11,8 @@
     "build",
     "node_modules",
     "temp",
-    "tmp"
+    "tmp",
+    "src/__tests__"
   ],
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
