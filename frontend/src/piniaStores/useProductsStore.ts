@@ -95,7 +95,7 @@ export default defineStore("products-store", () => {
         },
         withCredentials: true,
       });
-      products.value = resp.data.products;
+      products.value = resp.data.products ?? [];
       total_products_amount.value = resp.data.count;
 
       const stringifiedFilters = Object.values(filtersStore.filters).every(

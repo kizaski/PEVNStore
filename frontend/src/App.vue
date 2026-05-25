@@ -32,7 +32,12 @@ const fetchCategories = async () => {
         withCredentials: true,
       }
     );
-    categories.value = resp.data;
+    const data = resp.data;
+    if (Array.isArray(data)) {
+      categories.value = data.filter(
+        (c: unknown) => typeof c === "string" && c.trim() !== "" && !c.includes("<")
+      );
+    }
   } catch (error) {
     console.error("Failed to fetch categories:", error);
   }
@@ -76,6 +81,7 @@ onMounted(() => {
     class="fixed left-0 top-20 z-50 transition-transform duration-500 h-5/6 w-3/5 md:w-1/5 overflow-y-scroll"
   >
     <div
+      v-if="category && category.length > 0"
       class="p-4 bg-slate-400 dark:bg-slate-700"
       v-for="category in categories"
       :key="category"

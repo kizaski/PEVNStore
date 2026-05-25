@@ -22,6 +22,9 @@ export default defineStore("cart-store", () => {
 
   const fetchCartProducts = async () => {
     try {
+      if (!Array.isArray(cart.value) || cart.value.length === 0) {
+        return;
+      }
       const resp = await axios.get(`${import.meta.env.VITE_API_URL}/products`, {
         params: {
           ids: JSON.stringify(cart.value.map((item) => item.product_id)),
@@ -58,11 +61,10 @@ export default defineStore("cart-store", () => {
         },
         { withCredentials: true }
       );
-      cart.value = (
-        await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-          withCredentials: true,
-        })
-      ).data;
+      const resp = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+        withCredentials: true,
+      });
+      cart.value = Array.isArray(resp.data) ? resp.data : [];
       await fetchCartProducts();
 
       toasterStore.success({ text: "Successfully added prodcut to cart" });
@@ -110,11 +112,10 @@ export default defineStore("cart-store", () => {
           { withCredentials: true }
         );
 
-        cart.value = (
-          await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-            withCredentials: true,
-          })
-        ).data;
+      const resp = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+        withCredentials: true,
+      });
+      cart.value = Array.isArray(resp.data) ? resp.data : [];
         await fetchCartProducts();
       } catch (error: any) {
         console.error("Failed to update cart:", error);
@@ -140,11 +141,10 @@ export default defineStore("cart-store", () => {
 
   onMounted(async () => {
     try {
-      cart.value = (
-        await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
-          withCredentials: true,
-        })
-      ).data;
+      const resp = await axios.get(`${import.meta.env.VITE_API_URL}/cart`, {
+        withCredentials: true,
+      });
+      cart.value = Array.isArray(resp.data) ? resp.data : [];
     } catch (error) {
       console.error("Failed to fetch cart:", error);
     }

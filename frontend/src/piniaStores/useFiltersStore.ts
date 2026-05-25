@@ -124,7 +124,13 @@ export default defineStore("filters-store", () => {
         `${import.meta.env.VITE_API_URL}/products/categories`,
         { withCredentials: true }
       );
-      categories.value = resp.data;
+      const data = resp.data;
+      if (Array.isArray(data)) {
+        categories.value = data.filter(
+          (c: unknown) =>
+            typeof c === "string" && c.trim() !== "" && !c.includes("<")
+        );
+      }
     } catch (error) {
       console.error("Failed to fetch categories:", error);
     }

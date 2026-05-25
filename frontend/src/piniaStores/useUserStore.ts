@@ -66,7 +66,7 @@ export default defineStore("user-store", () => {
         `${import.meta.env.VITE_API_URL}/auth/sessionStatus`,
         { withCredentials: true }
       );
-      user.value = resp.data.session.passport.user;
+      user.value = resp.data?.session?.passport?.user ?? null;
     } catch (error: any) {
       console.error("Failed call to /auth/sessionStatus:", error);
     }

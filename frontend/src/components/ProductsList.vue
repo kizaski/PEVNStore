@@ -84,7 +84,7 @@ watch(
     </div>
 
     <h2
-      v-if="productsStore.products.every((el) => !el)"
+      v-if="productsStore.products.length === 0"
       class="flex justify-center items-center w-full mb-6"
     >
       No results
